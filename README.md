@@ -14,49 +14,49 @@ You need to have Node.js and npm installed on your machine. If not, you can down
 
 Clone the repository to your local machine.
 
-\```bash
 git clone https://github.com/paullewis-borman/govuk-reactjs-dynamic-form-demo
-\```
 
 Navigate into the project directory.
 
-\```bash
-cd <project_directory>
-\```
+`cd ./govuk-reactjs-dynamic-form-demo`
 
 Install the project dependencies.
 
-\```bash
-npm install
-\```
+`npm install`
 
-Install the `govuk-react` library.
+Install the govuk-react library.
 
-\```bash
-npm install govuk-react
-\```
+`npm install govuk-react`
 
 Install React and ReactDOM.
 
-\```bash
-npm install react react-dom
-\```
+`npm install react react-dom`
 
 ### Running the Application
 
 To start the application, run:
 
-\```bash
-npm start
-\```
+`npm start`
 
 The application will start and can be accessed at `http://localhost:3000`.
+NB: Your local machine might require a different port number if you are already using this for another app. Node should inform you of this when you run the above command.
 
-## Form Structure
+## How to define your Form
 
-The form structure is defined in the `form-structure.js` file located in the root directory. This file contains the JSON that is used to dynamically generate the form.
+The form structure is defined in the `form-structure.js` file located in the ./src directory. This file contains the JSON that is used to dynamically generate the form. You can edit the json in this file experiment with generation of different form layouts, but you can only choose control types (form field types) from the subset of  reactjs GDS form components that this demo currently implements, they are:
 
-In a real-world application, we would not use JSON from a static JS file. Instead, we would retrieve the JSON via an API that provides the JSON form layout for the particular request form we want. This functionality is yet to be implemented.
+Input, TextArea, Select, Button, GridRow, GridCol, H1, Label, LabelText, Paragraph 
+
+It would be relatively straightforward to add more, see below to understand how the form rendering works to understand how this can be done.
+
+In a real-world application, we would not use JSON from a static JS file. Instead, the idea is we would retrieve the JSON form structure from an API call that provides the form layout for whatever request form we want. This functionality is not implemented in this demo.
+
+I have provided an example form-structure.js with this repo that should work out of the box. This should be self-explanatory. I suggest you take a backup of this and they play around with your own configurations to experiment. Good luck!
+
+
+## How Dynamic form generation works
+
+If you look in Apps.js you will see that there is a custom component called `DynamicFormContent.js`. You can find this file in the ./components folder. This component reads the json in the ./form-structure.js file that describes how the form should be laid out. It is a very basic implementation at the moment
 
 ## Built With
 
@@ -65,7 +65,7 @@ In a real-world application, we would not use JSON from a static JS file. Instea
 
 ## Authors
 
-* **Your Name** - *Initial work* - [YourGithubUsername](https://github.com/YourGithubUsername)
+* **Paul Lewis-Borman** - *Initial work* - [YourGithubUsername](https://github.com/paullewis-borman)
 
 ## License
 
@@ -73,6 +73,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Thanks to all those that implemented the govuk-reactjs repo, what a fantastic resource
+* Inspiration from Peter Thompson
