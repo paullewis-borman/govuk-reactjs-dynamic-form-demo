@@ -1,37 +1,42 @@
 // src/components/DynamicFormContent.js
 import React, { useState } from 'react';
-import { Input, TextArea, Select, Button, GridRow, GridCol, H1, Label, LabelText, Paragraph } from 'govuk-react';
+import { Input, TextArea, Select, Button, GridRow, GridCol, H1, Label, LabelText, Paragraph, Checkbox, Radio } from 'govuk-react';
 import formStructure from '../form-structure';
 
 const DynamicFormContent = () => {
-  // State to store form field values
   const [formData, setFormData] = useState({});
 
-  // Update form data state when input changes
   const handleInputChange = (id, value) => {
     setFormData(prev => ({ ...prev, [id]: value }));
   };
 
-  // handleSubmit function: Prevents default form submission behavior and checks if form is valid
+  const handleCheckboxChange = (id, checked) => {
+    setFormData(prev => ({ ...prev, [id]: checked }));
+  };
+
+  const handleRadioChange = (name, value) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
-
     if (form.checkValidity()) {
-      console.log('Form Submitted:', formData); // Replace with actual submission logic
+      console.log('Form Submitted:', formData);
     } else {
       console.log('Form has validation errors');
-      form.reportValidity(); // This will show the native HTML validation messages
+      form.reportValidity();
     }
   };
 
-  // renderField function: Renders form fields based on their type
   const renderField = (field) => {
     const fieldValue = formData[field.id] || '';
 
     switch (field.type) {
       case 'H1':
         return <H1 key={field.id}>{field.content}</H1>;
+      case 'Paragraph':
+        return <Paragraph key={field.id}>{field.content}</Paragraph>;
       case 'Input':
         return (
           <Input
@@ -69,8 +74,31 @@ const DynamicFormContent = () => {
             ))}
           </Select>
         );
-      case 'Paragraph':
-        return <Paragraph key={field.id}>{field.content}</Paragraph>;
+      case 'Checkbox':
+        return (
+          <Checkbox
+            key={field.id}
+            id={field.id}
+            required={field.isRequired}
+            checked={!!fieldValue}
+            onChange={e => handleCheckboxChange(field.id, e.target.checked)}
+          >
+            {field.label}
+          </Checkbox>
+        );
+      case 'Radio':
+        return (
+          <Radio
+            key={field.id}
+            id={field.id}
+            name={field.name}
+            required={field.isRequired}
+            checked={formData[field.name] === field.value}
+            onChange={e => handleRadioChange(field.name, field.value)}
+          >
+            {field.label}
+          </Radio>
+        );
       default:
         return null;
     }
@@ -82,14 +110,7 @@ const DynamicFormContent = () => {
         <form onSubmit={handleSubmit} noValidate>
           {formStructure.fields.map((field, index) => (
             <div key={index}>
-              {field.type === 'Input' || field.type === 'TextArea' || field.type === 'Select' ? (
-                <Label htmlFor={field.id}>
-                  <LabelText>{field.label}</LabelText>
-                  {renderField(field)}
-                </Label>
-              ) : (
-                renderField(field)
-              )}
+              {renderField(field)}
             </div>
           ))}
           <Button type="submit">{formStructure.submitButtonText}</Button>

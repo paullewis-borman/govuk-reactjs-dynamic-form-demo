@@ -3,7 +3,7 @@ const formStructure = {
     fields: [
       {
         type: "H1",
-        content: "Dynamically Generated Form Title"
+        content: "Dynamically Generated Personal Details Form"
       },
       {
         label: "First and last name",

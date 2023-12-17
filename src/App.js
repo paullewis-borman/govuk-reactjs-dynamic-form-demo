@@ -1,5 +1,5 @@
 // Importing components from govuk-react library
-import { Page, H1, Input, Paragraph,Footer } from 'govuk-react';
+import { Page, H1, Input, Paragraph,Footer, Checkbox,Radio } from 'govuk-react';
 
 // Importing DynamicFormContent component from components directory
 // This is the component that will display the dynamic form based on the form structure specified in form-structure.js
