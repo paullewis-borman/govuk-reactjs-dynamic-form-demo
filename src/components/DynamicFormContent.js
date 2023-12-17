@@ -1,6 +1,6 @@
 // src/components/DynamicFormContent.js
 import React, { useState } from 'react';
-import { Input, TextArea, Select, Button, GridRow, GridCol, H1, Label, LabelText, Paragraph, Checkbox, Radio } from 'govuk-react';
+import { Input, TextArea, Select, Button, GridRow, GridCol, H1, Label, LabelText, Paragraph, Checkbox, Radio, Fieldset } from 'govuk-react';
 import formStructure from '../form-structure';
 
 const DynamicFormContent = () => {
@@ -10,12 +10,23 @@ const DynamicFormContent = () => {
     setFormData(prev => ({ ...prev, [id]: value }));
   };
 
-  const handleCheckboxChange = (id, checked) => {
-    setFormData(prev => ({ ...prev, [id]: checked }));
+  const handleCheckboxChange = (id, checked, isFieldset) => {
+    if (isFieldset) {
+      const [fieldsetId, checkboxId] = id.split('.');
+      setFormData(prev => ({
+        ...prev,
+        [fieldsetId]: {
+          ...prev[fieldsetId],
+          [checkboxId]: checked
+        }
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [id]: checked }));
+    }
   };
 
-  const handleRadioChange = (name, value) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleRadioChange = (id, value) => {
+    setFormData(prev => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = (event) => {
@@ -29,45 +40,46 @@ const DynamicFormContent = () => {
     }
   };
 
-  const renderField = (field) => {
-    const fieldValue = formData[field.id] || '';
+  const renderField = (field, fieldsetId = null) => {
+    const fullId = fieldsetId ? `${fieldsetId}.${field.id}` : field.id;
+    const fieldValue = fieldsetId ? formData[fieldsetId]?.[field.id] : formData[field.id];
 
     switch (field.type) {
       case 'H1':
-        return <H1 key={field.id}>{field.content}</H1>;
+        return <H1 key={fullId}>{field.content}</H1>;
       case 'Paragraph':
-        return <Paragraph key={field.id}>{field.content}</Paragraph>;
+        return <Paragraph key={fullId}>{field.content}</Paragraph>;
       case 'Input':
         return (
           <Input
-            key={field.id}
-            id={field.id}
+            key={fullId}
+            id={fullId}
             type={field.inputType || 'text'}
             placeholder={field.placeholder}
             required={field.isRequired}
             value={fieldValue}
-            onChange={e => handleInputChange(field.id, e.target.value)}
+            onChange={e => handleInputChange(fullId, e.target.value)}
           />
         );
       case 'TextArea':
         return (
           <TextArea
-            key={field.id}
-            id={field.id}
+            key={fullId}
+            id={fullId}
             placeholder={field.placeholder}
             required={field.isRequired}
             value={fieldValue}
-            onChange={e => handleInputChange(field.id, e.target.value)}
+            onChange={e => handleInputChange(fullId, e.target.value)}
           />
         );
       case 'Select':
         return (
           <Select
-            key={field.id}
-            id={field.id}
+            key={fullId}
+            id={fullId}
             required={field.isRequired}
             value={fieldValue}
-            onChange={e => handleInputChange(field.id, e.target.value)}
+            onChange={e => handleInputChange(fullId, e.target.value)}
           >
             {field.options && field.options.map((option, idx) => (
               <option key={idx} value={option.value}>{option.text}</option>
@@ -77,11 +89,11 @@ const DynamicFormContent = () => {
       case 'Checkbox':
         return (
           <Checkbox
-            key={field.id}
-            id={field.id}
+            key={fullId}
+            id={fullId}
             required={field.isRequired}
             checked={!!fieldValue}
-            onChange={e => handleCheckboxChange(field.id, e.target.checked)}
+            onChange={e => handleCheckboxChange(fullId, e.target.checked, !!fieldsetId)}
           >
             {field.label}
           </Checkbox>
@@ -89,8 +101,8 @@ const DynamicFormContent = () => {
       case 'Radio':
         return (
           <Radio
-            key={field.id}
-            id={field.id}
+            key={fullId}
+            id={fullId}
             name={field.name}
             required={field.isRequired}
             checked={formData[field.name] === field.value}
@@ -98,6 +110,12 @@ const DynamicFormContent = () => {
           >
             {field.label}
           </Radio>
+        );
+      case 'Fieldset':
+        return (
+          <Fieldset key={field.id} legend={field.legend}>
+            {field.fields.map(subField => renderField(subField, field.id))}
+          </Fieldset>
         );
       default:
         return null;

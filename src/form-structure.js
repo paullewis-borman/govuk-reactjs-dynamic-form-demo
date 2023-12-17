@@ -3,43 +3,52 @@ const formStructure = {
   fields: [
     {
       type: "H1",
-      content: "Pizza Order Form"
+      content: "Dynamically generated pizza toppings form"
     },
     {
       type: "Paragraph",
-      content: "Choose the size for your pizza."
+      content: "Select your preferred pizza toppings."
     },
     {
-      id: "sizeSmall",
-      label: "Small",
-      type: "Radio",
-      name: "pizzaSize",
-      value: "small",
-      isRequired: true
+      id: "pizzatoppings",
+      type: "Fieldset",
+      legend: "Toppings",
+      fields: [
+        {
+          id: "pepperoni",
+          label: "Pepperoni",
+          type: "Checkbox",
+          isRequired: false
+        },
+        {
+          id: "ham",
+          label: "Ham",
+          type: "Checkbox",
+          isRequired: false
+        },
+        {
+          id: "mushroom",
+          label: "Mushroom",
+          type: "Checkbox",
+          isRequired: false
+        },
+        {
+          id: "greenChilli",
+          label: "Green Chilli",
+          type: "Checkbox",
+          isRequired: false
+        },
+        {
+          id: "extraMozzarella",
+          label: "Extra Mozzarella",
+          type: "Checkbox",
+          isRequired: false
+        }
+      ]
     },
-    {
-      id: "sizeMedium",
-      label: "Medium",
-      type: "Radio",
-      name: "pizzaSize",
-      value: "medium",
-      isRequired: true
-    },
-    {
-      id: "sizeLarge",
-      label: "Large",
-      type: "Radio",
-      name: "pizzaSize",
-      value: "large",
-      isRequired: true
-    },
-    {
-      type: "Paragraph",
-      content: ""
-    },
-    // ... You can continue adding other form fields here as needed
+    // Additional fields can be added here as needed
   ],
-  submitButtonText: "Place Order"
+  submitButtonText: "Submit Order"
 };
 
 export default formStructure;

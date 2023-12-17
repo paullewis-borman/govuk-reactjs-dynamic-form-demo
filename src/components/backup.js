@@ -1,6 +1,6 @@
 // src/components/DynamicFormContent.js
 import React, { useState } from 'react';
-import { Input, TextArea, Select, Button, GridRow, GridCol, H1, Label, LabelText, Paragraph, Checkbox, Radio } from 'govuk-react';
+import { Input, TextArea, Select, Button, GridRow, GridCol, H1, Label, LabelText, Paragraph, Checkbox, Radio, Fieldset } from 'govuk-react';
 import formStructure from '../form-structure';
 
 const DynamicFormContent = () => {
@@ -39,40 +39,46 @@ const DynamicFormContent = () => {
         return <Paragraph key={field.id}>{field.content}</Paragraph>;
       case 'Input':
         return (
-          <Input
-            key={field.id}
-            id={field.id}
-            type={field.inputType || 'text'}
-            placeholder={field.placeholder}
-            required={field.isRequired}
-            value={fieldValue}
-            onChange={e => handleInputChange(field.id, e.target.value)}
-          />
+          <Label key={field.id} htmlFor={field.id}>
+            <LabelText>{field.label}</LabelText>
+            <Input
+              id={field.id}
+              type={field.inputType || 'text'}
+              placeholder={field.placeholder}
+              required={field.isRequired}
+              value={fieldValue}
+              onChange={e => handleInputChange(field.id, e.target.value)}
+            />
+          </Label>
         );
       case 'TextArea':
         return (
-          <TextArea
-            key={field.id}
-            id={field.id}
-            placeholder={field.placeholder}
-            required={field.isRequired}
-            value={fieldValue}
-            onChange={e => handleInputChange(field.id, e.target.value)}
-          />
+          <Label key={field.id} htmlFor={field.id}>
+            <LabelText>{field.label}</LabelText>
+            <TextArea
+              id={field.id}
+              placeholder={field.placeholder}
+              required={field.isRequired}
+              value={fieldValue}
+              onChange={e => handleInputChange(field.id, e.target.value)}
+            />
+          </Label>
         );
       case 'Select':
         return (
-          <Select
-            key={field.id}
-            id={field.id}
-            required={field.isRequired}
-            value={fieldValue}
-            onChange={e => handleInputChange(field.id, e.target.value)}
-          >
-            {field.options && field.options.map((option, idx) => (
-              <option key={idx} value={option.value}>{option.text}</option>
-            ))}
-          </Select>
+          <Label key={field.id} htmlFor={field.id}>
+            <LabelText>{field.label}</LabelText>
+            <Select
+              id={field.id}
+              required={field.isRequired}
+              value={fieldValue}
+              onChange={e => handleInputChange(field.id, e.target.value)}
+            >
+              {field.options.map((option, idx) => (
+                <option key={idx} value={option.value}>{option.text}</option>
+              ))}
+            </Select>
+          </Label>
         );
       case 'Checkbox':
         return (
@@ -98,6 +104,13 @@ const DynamicFormContent = () => {
           >
             {field.label}
           </Radio>
+        );
+      case 'Fieldset':
+        return (
+          <Fieldset key={field.id}>
+            <Fieldset.Legend>{field.legend}</Fieldset.Legend>
+            {field.fields.map(subField => renderField(subField))}
+          </Fieldset>
         );
       default:
         return null;
