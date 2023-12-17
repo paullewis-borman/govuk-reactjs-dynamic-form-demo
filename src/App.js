@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+// Importing components from govuk-react library
+import { Page, H1, Input, Paragraph,Footer } from 'govuk-react';
 
+// Importing DynamicFormContent component from components directory
+// This is the component that will display the dynamic form based on the form structure specified in form-structure.js
+// In practice we would retrieve the form structure from an API endpoint based upon the form request type we need
+import DynamicFormContent from './components/DynamicFormContent.js';
+
+// Defining App component
 function App() {
+  // Returning JSX to be rendered
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    // Page component from govuk-react to create a page layout
+    <Page>
+      <DynamicFormContent />
+    <Footer />
+    </Page>
+  )
 }
 
+// Exporting App component as default export
 export default App;
