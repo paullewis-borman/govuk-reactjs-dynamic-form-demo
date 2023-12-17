@@ -3,52 +3,70 @@ const formStructure = {
     fields: [
       {
         type: "H1",
-        content: "Dynamically Generated Form Title"
+        content: "Dynamically generated address form"
       },
       {
-        label: "First and last name",
+        type: "Paragraph",
+        content: "Please provide details of the address you would like to add to the reference data store."
+      },
+      {
+        id: "addressLine1",
+        label: "Address Line 1",
         type: "Input",
-        placeholder: "Enter your name",
+        placeholder: "Enter the first line of your address",
         isRequired: true
       },
       {
         type: "Paragraph",
-        content:""
+        content: ""
       },
       {
-        label: "Age",
+        id: "addressLine2",
+        label: "Address Line 2",
         type: "Input",
-        inputType: "number",
-        placeholder: "Enter your age",
+        placeholder: "Enter the second line of your address",
+        isRequired: false
+      },
+      {
+        type: "Paragraph",
+        content: ""
+      },
+      {
+        id: "addressLine3",
+        label: "Address Line 3",
+        type: "Input",
+        placeholder: "Enter the third line of your address",
+        isRequired: false
+      },
+      {
+        type: "Paragraph",
+        content: ""
+      },
+      {
+        id: "city",
+        label: "City",
+        type: "Input",
+        placeholder: "Enter your city",
         isRequired: true
       },
       {
         type: "Paragraph",
-        content:""
+        content: ""
       },
       {
-        label: "Email Address",
+        id: "postalCode",
+        label: "Postal Code",
         type: "Input",
-        inputType: "email",
-        placeholder: "Enter your email address",
+        placeholder: "Enter your postal code",
         isRequired: true
       },
       {
         type: "Paragraph",
-        content:""
-      },
-      {
-        type: "TextArea",
-        label: "Description of your reference data request"
-      },
-      {
-        type: "Paragraph",
-        content:""
+        content: ""
       },
       // Additional fields can be added here as needed
     ],
     submitButtonText: "Submit"
-  };
-  
-  export default formStructure;
-  
+};
+
+export default formStructure;
