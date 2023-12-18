@@ -43,15 +43,20 @@ NB: Your local machine might require a different port number if you are already 
 
 ## How to define your Form
 
-The form structure is defined in the `form-structure.js` file located in the ./src directory. This file contains the JSON that is used to dynamically generate the form. You can edit the json in this file experiment with generation of different form layouts, but you can only choose control types (form field types) from the subset of  reactjs GDS form components that this demo currently implements, they are:
+The form structure is defined in the `form-structure.js` file located in the ./src directory. This file contains the JSON that is used to dynamically generate the form. You can edit the json in this file experiment with generation of different form layouts, but you can only choose component types (form field types) from the subset of  reactjs GDS form components that this demo currently implements, they are:
 
-Input, TextArea, Select, Button, GridRow, GridCol, H1, Label, LabelText, Paragraph 
+Input, TextArea, Select, Button, GridRow, GridCol, H1, Paragraph, Radio, Checkbox, Fieldset
+
+There are are bunch of example layouts in the ./src folder with names like form-strucutre-xxxxxx.js. Just copy the content of these over the existing form-structure.js and you can toggle between form layouts. These example also show you how to use different component types including how to wrap Checkboxes within a Fieldset so you can group choices together.
 
 It would be relatively straightforward to add more, see below to understand how the form rendering works to understand how this can be done.
 
 In a real-world application, we would not use JSON from a static JS file. Instead, the idea is we would retrieve the JSON form structure from an API call that provides the form layout for whatever request form we want. This functionality is not implemented in this demo.
 
 I have provided an example form-structure.js with this repo that should work out of the box. This should be self-explanatory. I suggest you take a backup of this and they play around with your own configurations to experiment. Good luck!
+
+## Output json
+Each form autoatically gets a GDS form header and footer and your "json form" gets rendered between these. When your form is submitted (button click) it will produce a json output of the field names and values entered by the user. You can see this if you open the console in your browser developer tools.
 
 
 ## How Dynamic form generation works
